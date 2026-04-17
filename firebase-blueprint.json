@@ -1,0 +1,109 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "A user's profile information.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "displayName": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "photoURL": { "type": "string", "format": "uri" },
+        "role": { "type": "string", "enum": ["admin", "user"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "displayName", "email", "createdAt"]
+    },
+    "JobBriefing": {
+      "title": "Job Briefing",
+      "description": "Daily job safety briefing and scope of work.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "address": { "type": "string" },
+        "client": { "type": "string" },
+        "crewLeader": { "type": "string" },
+        "scope": { "type": "string" },
+        "hazards": { "type": "array", "items": { "type": "string" } },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "date", "address", "createdAt"]
+    },
+    "RiskAssessment": {
+      "title": "Risk Assessment",
+      "description": "Site-specific risk assessment and PPE requirements.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "weather": { "type": "string" },
+        "groundConditions": { "type": "string" },
+        "ppe": { "type": "array", "items": { "type": "string" } },
+        "riskScore": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "date", "createdAt"]
+    },
+    "TreeSurvey": {
+      "title": "Tree Survey",
+      "description": "Comprehensive tree survey (BS5837) with customer and site info.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "clientName": { "type": "string" },
+        "clientPhone": { "type": "string" },
+        "clientEmail": { "type": "string" },
+        "surveyorName": { "type": "string" },
+        "surveyPurpose": { "type": "string" },
+        "address": { "type": "string" },
+        "surveyArea": { "type": "string" },
+        "surveyType": { "type": "string" },
+        "surveyMethod": { "type": "string" },
+        "summary": { "type": "string" },
+        "trees": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "species": { "type": "string" },
+              "height": { "type": "string" },
+              "dbh": { "type": "string" },
+              "category": { "type": "string" },
+              "condition": { "type": "string" },
+              "photos": {
+                "type": "array",
+                "items": { "type": "string" }
+              }
+            }
+          }
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "date", "address", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile documents."
+    },
+    "/jobBriefings/{id}": {
+      "schema": "JobBriefing",
+      "description": "Job briefing records."
+    },
+    "/riskAssessments/{id}": {
+      "schema": "RiskAssessment",
+      "description": "Risk assessment records."
+    },
+    "/treeSurveys/{id}": {
+      "schema": "TreeSurvey",
+      "description": "Tree survey records."
+    }
+  }
+}
